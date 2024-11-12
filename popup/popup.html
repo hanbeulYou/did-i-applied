@@ -1,11 +1,57 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <title>Popup</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Did I Applied?</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .category-list {
+        list-style: none;
+        padding: 0;
+      }
+      .category-list li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #ccc;
+      }
+      .category-list li:hover {
+        background-color: #f0f0f0;
+      }
+      .job-list {
+        list-style: none;
+        padding: 0;
+      }
+      .job-list li {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+      }
+      .job-list li:hover {
+        background-color: #f0f0f0;
+      }
+      .job-logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+      .job-details {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello, Chrome Extension!</h1>
-    <button id="myButton">Click me</button>
+    <h3>지원한 공고들</h3>
+    <ul class="category-list">
+      <li id="wantedCategory">Wanted</li>
+    </ul>
+    <ul id="jobList" class="job-list"></ul>
+
     <script src="popup.js"></script>
   </body>
 </html>
