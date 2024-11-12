@@ -22,8 +22,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://www.wanted.co.kr/*"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; img-src 'self' https://*; object-src 'self'"
+  }
 }
