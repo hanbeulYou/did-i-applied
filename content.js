@@ -9,15 +9,26 @@ document.addEventListener("click", (e) => {
   console.log("applyButton:", applyButton);
 
   if (applyButton) {
-    const companyLogo = applyButton.querySelector("img")?.src || "";
-
     const companyData = {
       companyId: applyButton.getAttribute("data-company-id"),
       companyName: applyButton.getAttribute("data-company-name"),
       positionId: applyButton.getAttribute("data-position-id"),
       positionName: applyButton.getAttribute("data-position-name"),
-      logoUrl: companyLogo,
     };
+
+    // companyLogo는 article 요소에서 가져오기
+    const companyInfo = document.querySelector(
+      "[class*='CompanyInfo_CompanyInfo']"
+    );
+    const companyLogo = companyInfo
+      ? companyInfo.querySelector("a[data-attribute-id='company__click'] img")
+          ?.src || ""
+      : "";
+
+    console.log("companyInfo", companyInfo);
+    console.log("companyLogo", companyLogo);
+
+    companyData.logoUrl = companyLogo;
 
     console.log("companyData:", companyData);
 
@@ -56,12 +67,15 @@ chrome.storage.local.get(["savedJobs"], (result) => {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
-        if (
-          node.nodeType === 1 &&
-          node.matches("a[data-attribute-id='position__click']")
-        ) {
-          console.log("New jobCard added:", node);
-          applyOverlayIfApplied(node, appliedJobIds);
+        if (node.nodeType === 1) {
+          // 노드 내부에 a[data-attribute-id='position__click'] 요소가 있는지 확인
+          const jobCard = node.querySelector(
+            "a[data-attribute-id='position__click']"
+          );
+          if (jobCard) {
+            console.log("New jobCard added:", jobCard);
+            applyOverlayIfApplied(jobCard, appliedJobIds);
+          }
         }
       });
     });
