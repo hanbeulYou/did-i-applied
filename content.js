@@ -9,47 +9,64 @@ document.addEventListener("click", (e) => {
   console.log("applyButton:", applyButton);
 
   if (applyButton) {
-    const companyData = {
-      companyId: applyButton.getAttribute("data-company-id"),
-      companyName: applyButton.getAttribute("data-company-name"),
-      positionId: applyButton.getAttribute("data-position-id"),
-      positionName: applyButton.getAttribute("data-position-name"),
-    };
+    const positionId = applyButton.getAttribute("data-position-id");
 
-    // companyLogo는 article 요소에서 가져오기
-    const companyInfo = document.querySelector(
-      "[class*='CompanyInfo_CompanyInfo']"
-    );
-    const companyLogo = companyInfo
-      ? companyInfo.querySelector("a[data-attribute-id='company__click'] img")
-          ?.src || ""
-      : "";
+    // chrome.storage.local에서 이미 저장된 job 데이터를 확인
+    chrome.storage.local.get(["savedJobs"], (result) => {
+      const savedJobs = result.savedJobs || {};
+      const appliedJobIds = savedJobs["Wanted"]
+        ? savedJobs["Wanted"].map((job) => job.positionId)
+        : [];
 
-    console.log("companyInfo", companyInfo);
-    console.log("companyLogo", companyLogo);
-
-    companyData.logoUrl = companyLogo;
-
-    console.log("companyData:", companyData);
-
-    // background.js로 메시지를 보내 저장 요청
-    chrome.runtime.sendMessage(
-      {
-        action: "saveJobPosting",
-        jobData: companyData,
-        category: "Wanted",
-      },
-      (response) => {
-        if (response && response.status === "saved") {
-          console.log("Job posting saved successfully.");
-        } else {
-          console.error(
-            "Failed to save job posting:",
-            response ? response.message : "Unknown error"
-          );
-        }
+      // 현재 positionId가 이미 저장되어 있는지 확인
+      if (appliedJobIds.includes(positionId)) {
+        console.log("This job has already been saved.");
+        return; // 중복된 positionId라면 함수 종료
       }
-    );
+
+      // 새로운 데이터 저장을 위한 companyData 생성
+      const companyData = {
+        companyId: applyButton.getAttribute("data-company-id"),
+        companyName: applyButton.getAttribute("data-company-name"),
+        positionId: positionId,
+        positionName: applyButton.getAttribute("data-position-name"),
+      };
+
+      // companyLogo는 article 요소에서 가져오기
+      const companyInfo = document.querySelector(
+        "[class*='CompanyInfo_CompanyInfo']"
+      );
+      const companyLogo = companyInfo
+        ? companyInfo.querySelector("a[data-attribute-id='company__click'] img")
+            ?.src || ""
+        : "";
+
+      console.log("companyInfo", companyInfo);
+      console.log("companyLogo", companyLogo);
+
+      companyData.logoUrl = companyLogo;
+
+      console.log("companyData:", companyData);
+
+      // background.js로 메시지를 보내 저장 요청
+      chrome.runtime.sendMessage(
+        {
+          action: "saveJobPosting",
+          jobData: companyData,
+          category: "Wanted",
+        },
+        (response) => {
+          if (response && response.status === "saved") {
+            console.log("Job posting saved successfully.");
+          } else {
+            console.error(
+              "Failed to save job posting:",
+              response ? response.message : "Unknown error"
+            );
+          }
+        }
+      );
+    });
   }
 });
 
