@@ -2,9 +2,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const wantedCategory = document.getElementById("wantedCategory");
   const jobList = document.getElementById("jobList");
 
+  // 카테고리 클릭 시 토글
   wantedCategory.addEventListener("click", () => {
-    jobList.innerHTML = ""; // 기존 리스트 초기화
+    // 토글 기능: jobList가 보이거나 숨기기
+    if (jobList.style.display === "none" || jobList.style.display === "") {
+      jobList.style.display = "block";
+      loadJobList();
+    } else {
+      jobList.style.display = "none";
+      jobList.innerHTML = ""; // 숨길 때 기존 리스트 초기화
+    }
+  });
 
+  // jobList를 로드하는 함수
+  function loadJobList() {
     chrome.storage.local.get(["savedJobs"], (result) => {
       const savedJobs = result.savedJobs || {};
       const wantedJobs = savedJobs["Wanted"] || [];
@@ -44,5 +55,5 @@ document.addEventListener("DOMContentLoaded", () => {
         jobList.appendChild(jobItem);
       });
     });
-  });
+  }
 });

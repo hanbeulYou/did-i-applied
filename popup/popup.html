@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Did I Applied?</title>
     <style>
+      html,
       body {
         font-family: Arial, sans-serif;
+        width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
       }
       .category-list {
         list-style: none;
@@ -23,6 +27,7 @@
       .job-list {
         list-style: none;
         padding: 0;
+        display: none;
       }
       .job-list li {
         display: flex;
@@ -52,6 +57,7 @@
     </ul>
     <ul id="jobList" class="job-list"></ul>
 
+    <!-- JavaScript 파일 로드 -->
     <script src="popup.js"></script>
   </body>
 </html>

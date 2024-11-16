@@ -109,6 +109,7 @@ chrome.storage.local.get(["savedJobs"], (result) => {
     });
 });
 
+// TODO: 메인 페이지에서 보이는 썸네일도 가려줘야할까?
 // 오버레이 적용 함수
 function applyOverlayIfApplied(jobCard, appliedJobIds) {
   const positionId = jobCard.getAttribute("data-position-id");
@@ -120,22 +121,28 @@ function applyOverlayIfApplied(jobCard, appliedJobIds) {
     if (imageContainer && !jobCard.querySelector(".applied-overlay")) {
       imageContainer.style.filter = "blur(4px)";
 
+      // 오버레이 요소 생성
       const overlay = document.createElement("div");
-      overlay.className = "applied-overlay";
-      overlay.textContent = "이미 지원함";
+      overlay.className = "applied-overlay"; // 중복 방지용 클래스
+
+      // 오버레이 스타일 설정
       overlay.style.position = "absolute";
       overlay.style.top = "0";
       overlay.style.left = "0";
       overlay.style.width = "100%";
       overlay.style.height = "100%";
       overlay.style.display = "flex";
+      overlay.style.flexDirection = "column";
       overlay.style.alignItems = "center";
       overlay.style.justifyContent = "center";
+      overlay.style.textAlign = "center"; // 가운데 정렬
       overlay.style.color = "white";
-      overlay.style.fontSize = "20px";
+      overlay.style.fontSize = "18px";
       overlay.style.fontWeight = "bold";
       overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
 
+      // 텍스트 추가
+      overlay.innerHTML = "이미 지원한<br>공고입니다.";
       imageContainer.parentElement.style.position = "relative";
       imageContainer.parentElement.appendChild(overlay);
       console.log("Overlay applied to jobCard with positionId:", positionId);
