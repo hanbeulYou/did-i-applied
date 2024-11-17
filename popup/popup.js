@@ -2,6 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const wantedCategory = document.getElementById("wantedCategory");
   const jobList = document.getElementById("jobList");
 
+  // 저장된 항목 수를 업데이트하는 함수
+  function updateCategoryCount() {
+    chrome.storage.local.get(["savedJobs"], (result) => {
+      const savedJobs = result.savedJobs || {};
+      const wantedJobs = savedJobs["Wanted"] || [];
+
+      // 항목 개수를 span에 업데이트
+      wantedCount.textContent = `(${wantedJobs.length})`;
+    });
+  }
   // 카테고리 클릭 시 토글
   wantedCategory.addEventListener("click", () => {
     // 토글 기능: jobList가 보이거나 숨기기
@@ -34,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const companyName = document.createElement("span");
         companyName.textContent = job.companyName;
+        companyName.style.fontWeight = "bold";
 
         const positionName = document.createElement("span");
         positionName.textContent = job.positionName;
@@ -56,4 +67,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+  updateCategoryCount();
 });

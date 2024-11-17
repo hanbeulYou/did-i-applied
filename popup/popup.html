@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Did I Applied?</title>
+    <title>Did I Apply?</title>
     <style>
       html,
       body {
@@ -12,18 +12,26 @@
         max-height: 400px;
         overflow-y: auto;
         margin: 0;
-        padding: 4px 8px;
+        padding: 0;
       }
       .container {
         display: flex;
         flex-direction: column;
         width: calc(100% - 16px);
+        padding: 8px;
+      }
+      h3 {
+        margin: 0;
+        padding: 8px;
       }
       .category-list {
         list-style: none;
         padding: 0;
+        margin: 0;
       }
       .category-list li {
+        display: flex;
+        justify-content: space-between;
         font-weight: bold;
         padding: 10px;
         cursor: pointer;
@@ -62,7 +70,10 @@
     <div class="container">
       <h3>지원한 공고들</h3>
       <ul class="category-list">
-        <li id="wantedCategory">Wanted</li>
+        <li id="wantedCategory">
+          <span>Wanted</span>
+          <span id="wantedCount">(0)</span>
+        </li>
       </ul>
       <ul id="jobList" class="job-list"></ul>
     </div>
