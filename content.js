@@ -1,5 +1,5 @@
 // 페이지 로드 후 바로 실행
-console.log("You are now on wanted.co.kr");
+// console.log("You are now on wanted.co.kr");
 
 function findClosestOrChild(element, selector) {
   if (element.matches(selector)) {
@@ -10,14 +10,14 @@ function findClosestOrChild(element, selector) {
 
 // Click 이벤트 리스너 설정
 document.addEventListener("click", (e) => {
-  console.log("Click event triggered:", e.target);
+  // console.log("Click event triggered:", e.target);
 
   // 사용 예시
   const applyButton = findClosestOrChild(
     e.target,
     "[data-attribute-id='apply__done__net']"
   );
-  console.log("applyButton:", applyButton);
+  // console.log("applyButton:", applyButton);
 
   if (applyButton && !applyButton.disabled) {
     const positionId = applyButton.getAttribute("data-position-id");
@@ -31,7 +31,7 @@ document.addEventListener("click", (e) => {
 
       // 현재 positionId가 이미 저장되어 있는지 확인
       if (appliedJobIds.includes(positionId)) {
-        console.log("This job has already been saved.");
+        // console.log("This job has already been saved.");
         return; // 중복된 positionId라면 함수 종료
       }
 
@@ -52,12 +52,12 @@ document.addEventListener("click", (e) => {
             ?.src || ""
         : "";
 
-      console.log("companyInfo", companyInfo);
-      console.log("companyLogo", companyLogo);
+      // console.log("companyInfo", companyInfo);
+      // console.log("companyLogo", companyLogo);
 
       companyData.logoUrl = companyLogo;
 
-      console.log("companyData:", companyData);
+      // console.log("companyData:", companyData);
 
       // background.js로 메시지를 보내 저장 요청
       chrome.runtime.sendMessage(
@@ -113,7 +113,7 @@ function observeDOMChanges() {
 
 // 뒤로 가기 이벤트 처리
 window.addEventListener("popstate", () => {
-  console.log("Popstate detected. Reapplying overlays.");
+  // console.log("Popstate detected. Reapplying overlays.");
   applySavedJobsOverlay();
 });
 
