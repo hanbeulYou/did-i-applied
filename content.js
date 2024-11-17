@@ -69,47 +69,43 @@ document.addEventListener("click", (e) => {
     });
   }
 });
+// 공통 함수: 저장된 지원 정보를 가져와서 오버레이 적용
+function applySavedJobsOverlay() {
+  chrome.storage.local.get(["savedJobs"], (result) => {
+    const savedJobs = result.savedJobs || {};
+    const appliedJobIds = savedJobs["Wanted"]
+      ? savedJobs["Wanted"].map((job) => job.positionId)
+      : [];
 
-// 기존 지원 정보 확인 및 오버레이 추가
-chrome.storage.local.get(["savedJobs"], (result) => {
-  const savedJobs = result.savedJobs || {};
-  const appliedJobIds = savedJobs["Wanted"]
-    ? savedJobs["Wanted"].map((job) => job.positionId)
-    : [];
+    console.log("savedJobs:", savedJobs);
+    console.log("appliedJobIds:", appliedJobIds);
 
-  console.log("savedJobs:", savedJobs);
-  console.log("appliedJobIds:", appliedJobIds);
-
-  // MutationObserver 설정: 동적으로 추가되는 공고 카드 감지
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === 1) {
-          // 노드 내부에 a[data-attribute-id='position__click'] 요소가 있는지 확인
-          const jobCard = node.querySelector(
-            "a[data-attribute-id='position__click']"
-          );
-          if (jobCard) {
-            console.log("New jobCard added:", jobCard);
-            applyOverlayIfApplied(jobCard, appliedJobIds);
-          }
-        }
+    // 모든 공고 카드에 오버레이 적용
+    document
+      .querySelectorAll("a[data-attribute-id='position__click']")
+      .forEach((jobCard) => {
+        console.log("Applying overlay to jobCard:", jobCard);
+        applyOverlayIfApplied(jobCard, appliedJobIds);
       });
-    });
+  });
+}
+
+// DOM 변화 감지: 새로 추가된 공고 카드에 오버레이 적용
+function observeDOMChanges() {
+  const observer = new MutationObserver(() => {
+    console.log("DOM changed. Reapplying overlays...");
+    applySavedJobsOverlay(); // 변화가 있을 때마다 저장된 데이터를 다시 적용
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+}
 
-  // 페이지에 이미 로드된 공고 카드에 오버레이 적용
-  document
-    .querySelectorAll("a[data-attribute-id='position__click']")
-    .forEach((jobCard) => {
-      console.log("Applying overlay to existing jobCard:", jobCard);
-      applyOverlayIfApplied(jobCard, appliedJobIds);
-    });
+// 뒤로 가기 이벤트 처리
+window.addEventListener("popstate", () => {
+  console.log("Popstate detected. Reapplying overlays.");
+  applySavedJobsOverlay();
 });
 
-// TODO: 메인 페이지에서 보이는 썸네일도 가려줘야할까?
 // 오버레이 적용 함수
 function applyOverlayIfApplied(jobCard, appliedJobIds) {
   const positionId = jobCard.getAttribute("data-position-id");
@@ -149,3 +145,9 @@ function applyOverlayIfApplied(jobCard, appliedJobIds) {
     }
   }
 }
+
+// 초기 실행: 저장된 데이터로 모든 공고 카드에 오버레이 적용
+applySavedJobsOverlay();
+
+// DOM 변화를 감지하여 추가된 공고 카드 처리
+observeDOMChanges();
