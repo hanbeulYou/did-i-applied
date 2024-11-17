@@ -1,23 +1,28 @@
 // 페이지 로드 후 바로 실행
-// console.log("You are now on wanted.co.kr");
+console.log("You are now on wanted.co.kr");
 
 function findClosestOrChild(element, selector) {
   if (element.matches(selector)) {
     return element; // 현재 요소가 선택자와 일치
+  }
+  const closestElement = element.closest(selector); // 부모 요소 탐색
+  if (closestElement) {
+    return closestElement;
   }
   return element.querySelector(selector); // 자식 요소 탐색
 }
 
 // Click 이벤트 리스너 설정
 document.addEventListener("click", (e) => {
-  // console.log("Click event triggered:", e.target);
+  console.log("Click event triggered:", e.target);
 
   // 사용 예시
   const applyButton = findClosestOrChild(
     e.target,
+    // "[data-attribute-id='apply__start']"
     "[data-attribute-id='apply__done__net']"
   );
-  // console.log("applyButton:", applyButton);
+  console.log("applyButton:", applyButton);
 
   if (applyButton && !applyButton.disabled) {
     const positionId = applyButton.getAttribute("data-position-id");
@@ -57,7 +62,7 @@ document.addEventListener("click", (e) => {
 
       companyData.logoUrl = companyLogo;
 
-      // console.log("companyData:", companyData);
+      console.log("companyData:", companyData);
 
       // background.js로 메시지를 보내 저장 요청
       chrome.runtime.sendMessage(
