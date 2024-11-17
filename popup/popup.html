@@ -11,12 +11,20 @@
         width: 300px;
         max-height: 400px;
         overflow-y: auto;
+        margin: 0;
+        padding: 4px 8px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 16px);
       }
       .category-list {
         list-style: none;
         padding: 0;
       }
       .category-list li {
+        font-weight: bold;
         padding: 10px;
         cursor: pointer;
         border-bottom: 1px solid #ccc;
@@ -51,11 +59,13 @@
     </style>
   </head>
   <body>
-    <h3>지원한 공고들</h3>
-    <ul class="category-list">
-      <li id="wantedCategory">Wanted</li>
-    </ul>
-    <ul id="jobList" class="job-list"></ul>
+    <div class="container">
+      <h3>지원한 공고들</h3>
+      <ul class="category-list">
+        <li id="wantedCategory">Wanted</li>
+      </ul>
+      <ul id="jobList" class="job-list"></ul>
+    </div>
 
     <!-- JavaScript 파일 로드 -->
     <script src="popup.js"></script>
