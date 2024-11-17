@@ -84,6 +84,14 @@ document.addEventListener("click", (e) => {
 // 공통 함수: 저장된 지원 정보를 가져와서 오버레이 적용
 function applySavedJobsOverlay() {
   chrome.storage.local.get(["savedJobs"], (result) => {
+    if (chrome.runtime.lastError) {
+      console.error(
+        "Error accessing chrome.storage:",
+        chrome.runtime.lastError.message
+      );
+      return;
+    }
+
     const savedJobs = result.savedJobs || {};
     const appliedJobIds = savedJobs["Wanted"]
       ? savedJobs["Wanted"].map((job) => job.positionId)
