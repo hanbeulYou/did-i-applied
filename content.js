@@ -1,14 +1,25 @@
 // 페이지 로드 후 바로 실행
 console.log("You are now on wanted.co.kr");
 
+function findClosestOrChild(element, selector) {
+  if (element.matches(selector)) {
+    return element; // 현재 요소가 선택자와 일치
+  }
+  return element.querySelector(selector); // 자식 요소 탐색
+}
+
 // Click 이벤트 리스너 설정
 document.addEventListener("click", (e) => {
-  console.log("Click event triggered:", e);
+  console.log("Click event triggered:", e.target);
 
-  const applyButton = e.target.closest("[data-attribute-id='apply__start']");
+  // 사용 예시
+  const applyButton = findClosestOrChild(
+    e.target,
+    "[data-attribute-id='apply__done__net']"
+  );
   console.log("applyButton:", applyButton);
 
-  if (applyButton) {
+  if (applyButton && !applyButton.disabled) {
     const positionId = applyButton.getAttribute("data-position-id");
 
     // chrome.storage.local에서 이미 저장된 job 데이터를 확인
@@ -69,6 +80,7 @@ document.addEventListener("click", (e) => {
     });
   }
 });
+
 // 공통 함수: 저장된 지원 정보를 가져와서 오버레이 적용
 function applySavedJobsOverlay() {
   chrome.storage.local.get(["savedJobs"], (result) => {
@@ -77,14 +89,13 @@ function applySavedJobsOverlay() {
       ? savedJobs["Wanted"].map((job) => job.positionId)
       : [];
 
-    console.log("savedJobs:", savedJobs);
-    console.log("appliedJobIds:", appliedJobIds);
+    // console.log("savedJobs:", savedJobs);
+    // console.log("appliedJobIds:", appliedJobIds);
 
     // 모든 공고 카드에 오버레이 적용
     document
       .querySelectorAll("a[data-attribute-id='position__click']")
       .forEach((jobCard) => {
-        console.log("Applying overlay to jobCard:", jobCard);
         applyOverlayIfApplied(jobCard, appliedJobIds);
       });
   });
@@ -93,7 +104,7 @@ function applySavedJobsOverlay() {
 // DOM 변화 감지: 새로 추가된 공고 카드에 오버레이 적용
 function observeDOMChanges() {
   const observer = new MutationObserver(() => {
-    console.log("DOM changed. Reapplying overlays...");
+    // console.log("DOM changed. Reapplying overlays...");
     applySavedJobsOverlay(); // 변화가 있을 때마다 저장된 데이터를 다시 적용
   });
 
@@ -109,7 +120,6 @@ window.addEventListener("popstate", () => {
 // 오버레이 적용 함수
 function applyOverlayIfApplied(jobCard, appliedJobIds) {
   const positionId = jobCard.getAttribute("data-position-id");
-  console.log("Checking positionId for overlay:", positionId);
 
   if (appliedJobIds.includes(positionId)) {
     const imageContainer = jobCard.querySelector("img");
@@ -141,7 +151,7 @@ function applyOverlayIfApplied(jobCard, appliedJobIds) {
       overlay.innerHTML = "이미 지원한<br>공고입니다.";
       imageContainer.parentElement.style.position = "relative";
       imageContainer.parentElement.appendChild(overlay);
-      console.log("Overlay applied to jobCard with positionId:", positionId);
+      // console.log("Overlay applied to jobCard with positionId:", positionId);
     }
   }
 }
