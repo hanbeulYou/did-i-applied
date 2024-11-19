@@ -3,7 +3,7 @@
   "name": "Did I Apply?",
   "version": "1.0",
   "description": "A Chrome extension to track job applications.",
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["storage"],
   "background": {
     "service_worker": "background.js",
     "type": "module"

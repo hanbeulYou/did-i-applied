@@ -1,67 +1,48 @@
-# Privacy Policy for "Did I Apply?"
+# Privacy Policy
 
-Effective Date: [Insert Date]
+**Last Updated**: November 12, 2024
 
-## 1. Introduction
+"Did I Apply?" extension (hereinafter referred to as "the Extension") is committed to protecting user data and ensuring transparency in how data is processed. Below is the detailed privacy policy for the Extension.
 
-"Did I Apply?" is a Chrome extension designed to help users track job applications by marking job postings they have applied to. This Privacy Policy explains how we collect, use, and protect your information.
+## 1. Data Collection
 
-## 2. Information We Collect
+The Extension does not collect any personal information directly. However, the following data may be stored locally on your device:
 
-"Did I Apply?" does not collect, store, or share any personal or sensitive user data. The extension operates locally on your device and uses the Chrome Storage API to save and manage data related to your job applications.
+- Information about job applications:
+  - Company Name
+  - Position Name
+  - Logo URL
+  - Position ID
 
-### Data Stored Locally:
+This data is stored locally using Chrome's `chrome.storage.local` API and is not transmitted to external servers.
 
-- **Job application data**: The extension saves details such as job titles, company names, and application status. This data is stored locally on your browser and is not transmitted to external servers.
+## 2. Purpose of Data Usage
 
-## 3. How We Use Your Information
+The Extension aims to help users manage their job applications and avoid confusion by tracking which positions have already been applied for. The data is used for the following purposes:
 
-The locally stored data is used solely to provide the extension's functionality:
+- Displaying job postings you have applied for
+- Providing a visual indicator of applied jobs on job listing pages
 
-- To mark and track job postings you have applied to.
-- To display relevant application information within the extension.
+## 3. Data Retention
 
-We do not collect or transmit any user data to external servers or third-party services.
+The stored data remains on your device until you manually clear the Extension data or uninstall the Extension. Users can delete the data through the Chrome settings menu.
 
-## 4. Permissions
+## 4. Data Sharing with Third Parties
 
-To function as intended, the extension requests the following permissions:
+The Extension does not share user data with any third parties or external servers.
 
-- **`storage`**: To save job application data locally on your browser.
-- **`activeTab`**: To detect job application pages and mark relevant postings.
-- **`scripting`**: To dynamically update job postings with application status.
+## 5. Data Security
 
-These permissions are strictly necessary for the core functionality of the extension.
+- All data is securely stored using Chrome's `chrome.storage.local` API, ensuring it is only available locally on the user's device.
+- No data is transmitted to external servers or entities.
 
-## 5. Third-Party Services
+## 6. User Rights
 
-This extension does not use or integrate with any third-party services. All functionality is handled locally within the user's browser.
+- Users can view and delete stored data at any time.
+- To delete the data, go to Chrome settings and clear "Site Data" or "Extension Data."
 
-## 6. Data Security
+## 7. Contact Information
 
-We prioritize your data security by:
+For any inquiries regarding this privacy policy, please contact:
 
-- Storing all data locally within Chrome's secure storage system.
-- Avoiding the transmission of any data over the internet.
-
-## 7. User Control
-
-You have full control over the data stored by the extension. You can clear your saved data at any time by:
-
-1. Navigating to your browser's "Extensions" settings.
-2. Selecting "Did I Apply?"
-3. Clicking "Clear Data" or uninstalling the extension.
-
-## 8. Changes to This Policy
-
-We may update this Privacy Policy from time to time. Any changes will be reflected here with a new effective date.
-
-## 9. Contact Us
-
-If you have any questions or concerns about this Privacy Policy, please contact us at:
-
-- **Email**: [hanbeul.you@gmail.com]
-
----
-
-**By using "Did I Apply?", you agree to this Privacy Policy.**
+- Email: hanbeul.you@gmail.com
